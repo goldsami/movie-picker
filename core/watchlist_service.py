@@ -9,7 +9,7 @@ class WatchlistService:
         self.watchlist = []
 
     def get_watchlist(self, user_id: str):
-        if not self.watchlist:
+        if not len(self.watchlist):
             self.watchlist = self.repository.get_watchlist(user_id)
         return self.watchlist
 
