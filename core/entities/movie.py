@@ -1,9 +1,3 @@
-import dataclasses
-
-from typing import List
-
-
-# @dataclasses
 class Movie:
     def __init__(self, title, url, genres, year, rating, directors, title_type):
         self.title = title
