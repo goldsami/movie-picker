@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+import json
+
+from flask import Flask, jsonify, request
 
 from adapters.file_reader_adaprer import FileReaderAdapter
 from adapters.imdb_adapter import ImdbAdapter
@@ -6,12 +8,20 @@ from core.watchlist_service import WatchlistService
 
 app = Flask(__name__)
 
+watchlist_service = WatchlistService(ImdbAdapter(FileReaderAdapter()))
 
-@app.route('/<userid>', methods=['POST', 'GET'])
-def random_movie(userid):
-    watchlist_service = WatchlistService(ImdbAdapter(FileReaderAdapter()))
-    movie = watchlist_service.get_random_movie(userid)
-    return str(movie)
+
+@app.route('/random', methods=['POST'])
+def random_movie():
+    request_data = request.get_json()
+    movie = watchlist_service.get_random_movie(request_data['user_id'])
+    return json.dumps(movie.__dict__)
+
+
+@app.route('/info/<userid>', methods=['GET'])
+def test(userid):
+    info = watchlist_service.get_watchlist_info(userid)
+    return json.dumps(info.__dict__)
 
 
 if __name__ == '__main__':
