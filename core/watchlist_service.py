@@ -28,8 +28,13 @@ class WatchlistService:
                              min_rate=min(movie.rating for movie in watchlist),
                              max_year=max(movie.year for movie in watchlist),
                              min_year=min(movie.year for movie in watchlist),
-                             genres=self.get_genres(watchlist))
+                             genres=self.get_genres(watchlist),
+                             title_types=self.get_title_types(watchlist))
 
     @staticmethod
-    def get_genres(watchlist) -> List[str]:
-        return list(set(flatten(list(map(lambda x: x.genres, watchlist)))))
+    def get_genres(_watchlist) -> List[str]:
+        return list(set(flatten(list(map(lambda x: x.genres, _watchlist)))))
+
+    @staticmethod
+    def get_title_types(_watchlist) -> List[str]:
+        return list(set(list(map(lambda x: x.title_type, _watchlist))))
