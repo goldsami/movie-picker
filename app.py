@@ -14,7 +14,9 @@ watchlist_service = WatchlistService(ImdbAdapter(FileReaderAdapter()))
 @app.route('/random', methods=['POST'])
 def random_movie():
     request_data = request.get_json()
-    movie = watchlist_service.get_random_movie(request_data['user_id'])
+    user_id = request_data['user_id']
+    movies_filter = request_data['filter']
+    movie = watchlist_service.get_random_movie(user_id, movies_filter)
     return json.dumps(movie.__dict__)
 
 

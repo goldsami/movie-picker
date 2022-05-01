@@ -17,9 +17,10 @@ class WatchlistService:
             self.watchlist = self.repository.get_watchlist(user_id)
         return self.watchlist
 
-    def get_random_movie(self, user_id: str) -> Movie:
+    def get_random_movie(self, user_id: str, _filter: WatchlistInfo) -> Movie:
         watchlist = self.get_watchlist(user_id)
-        return random.choice(watchlist)
+        filtered_watchlist = self.filter_movies(watchlist, _filter)
+        return random.choice(filtered_watchlist)
 
     def get_watchlist_info(self, user_id: str) -> WatchlistInfo:
         watchlist = self.get_watchlist(user_id)
@@ -38,3 +39,10 @@ class WatchlistService:
     @staticmethod
     def get_title_types(_watchlist) -> List[str]:
         return list(set(list(map(lambda x: x.title_type, _watchlist))))
+
+    @staticmethod
+    def filter_movies(_watchlist, _filter):
+        result = _watchlist
+        if _filter['genres']:
+            result = list(filter(lambda x: all(item in x.genres for item in _filter['genres']), _watchlist))
+        return result
