@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, jsonify, request
+from flask import Flask, request
 
 from adapters.file_reader_adaprer import FileReaderAdapter
 from adapters.imdb_adapter import ImdbAdapter
@@ -27,4 +27,4 @@ def test(userid):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=3000)
