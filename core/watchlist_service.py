@@ -43,6 +43,16 @@ class WatchlistService:
     @staticmethod
     def filter_movies(_watchlist, _filter):
         result = _watchlist
-        if _filter['genres']:
-            result = list(filter(lambda x: all(item in x.genres for item in _filter['genres']), _watchlist))
+        if 'genres' in _filter:
+            result = list(filter(lambda x: all(item in x.genres for item in _filter['genres']), result))
+        if 'min_rate' in _filter:
+            result = list(filter(lambda x: x.rating > _filter['min_rate'], result))
+        if 'max_rate' in _filter:
+            result = list(filter(lambda x: x.rating < _filter['max_rate'], result))
+        if 'min_year' in _filter:
+            result = list(filter(lambda x: x.year > _filter['min_year'], result))
+        if 'max_year' in _filter:
+            result = list(filter(lambda x: x.year < _filter['max_year'], result))
+        if 'title_type' in _filter:
+            result = list(filter(lambda x: x.title_type == _filter['title_type'], result))
         return result
