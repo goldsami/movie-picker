@@ -7,6 +7,11 @@ from core.interfaces.watchlist_repository import WatchlistRepository
 from core.utils import flatten
 
 
+class NoItemsFoundError:
+    def __init__(self):
+        self.error = "No items found. Try to change filters."
+
+
 class WatchlistService:
     def __init__(self, repository: WatchlistRepository):
         self.repository = repository
@@ -20,6 +25,10 @@ class WatchlistService:
     def get_random_movie(self, user_id: str, _filter: WatchlistInfo) -> Movie:
         watchlist = self.get_watchlist(user_id)
         filtered_watchlist = self.filter_movies(watchlist, _filter)
+
+        if len(filtered_watchlist) == 0:
+            return NoItemsFoundError()
+
         return random.choice(filtered_watchlist)
 
     def get_watchlist_info(self, user_id: str) -> WatchlistInfo:
@@ -30,7 +39,7 @@ class WatchlistService:
                              max_year=max(movie.year for movie in watchlist),
                              min_year=min(movie.year for movie in watchlist),
                              genres=self.get_genres(watchlist),
-                             title_types=self.get_title_types(watchlist))
+                             title_type=self.get_title_types(watchlist))
 
     @staticmethod
     def get_genres(_watchlist) -> List[str]:
