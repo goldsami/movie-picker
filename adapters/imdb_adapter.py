@@ -46,9 +46,11 @@ class ImdbAdapter(WatchlistRepository):
             return list_id
         else:
             list_id = self.get_list_id_from_watchlist_page(user_id)
+            # TODO: move to separate function
             self.file_reader.write_json_to_file(json.dumps({
                 user_id: list_id
             }))
+            return list_id
 
     @staticmethod
     def request_csv(list_id: str):

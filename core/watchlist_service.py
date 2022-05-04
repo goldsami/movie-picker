@@ -15,12 +15,9 @@ class NoItemsFoundError:
 class WatchlistService:
     def __init__(self, repository: WatchlistRepository):
         self.repository = repository
-        self.watchlist = []
 
     def get_watchlist(self, user_id: str):
-        if not len(self.watchlist):
-            self.watchlist = self.repository.get_watchlist(user_id)
-        return self.watchlist
+        return self.repository.get_watchlist(user_id)
 
     def get_random_movie(self, user_id: str, _filter: WatchlistInfo) -> Movie:
         watchlist = self.get_watchlist(user_id)
