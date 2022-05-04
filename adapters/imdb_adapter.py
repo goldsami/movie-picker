@@ -29,11 +29,14 @@ class ImdbAdapter(WatchlistRepository):
         return list(map(self.csv_line_to_movie, filtered_items))
 
     def get_list_id_from_store(self, user_id):
-        user_lists_map = self.file_reader.get_json_obj_from_file()
+        user_lists_map = self.get_users_lists_map()
         if user_id in user_lists_map.keys() and user_lists_map[user_id]:
             return user_lists_map[user_id]
         else:
             return None
+
+    def get_users_lists_map(self):
+        return self.file_reader.get_json_obj_from_file()
 
     def get_list_id_from_watchlist_page(self, user_id):
         page = self.fetch_watchlist_page(user_id)
@@ -47,9 +50,9 @@ class ImdbAdapter(WatchlistRepository):
         else:
             list_id = self.get_list_id_from_watchlist_page(user_id)
             # TODO: move to separate function
-            self.file_reader.write_json_to_file(json.dumps({
-                user_id: list_id
-            }))
+            users_lists_map = self.get_users_lists_map()
+            users_lists_map[user_id] = list_id
+            self.file_reader.write_json_to_file(json.dumps(users_lists_map))
             return list_id
 
     @staticmethod
