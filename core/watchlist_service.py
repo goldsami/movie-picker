@@ -53,15 +53,40 @@ class WatchlistService:
     def filter_movies(_watchlist, _filter):
         result = _watchlist
         if 'genres' in _filter:
-            result = list(filter(lambda x: all(item in x.genres for item in _filter['genres']), result))
+            result = WatchlistService.filter_by_genres(result, _filter['genres'])
         if 'min_rate' in _filter:
-            result = list(filter(lambda x: x.rating > _filter['min_rate'], result))
+            result = WatchlistService.filter_by_min_rate(result, _filter['min_rate'])
         if 'max_rate' in _filter:
-            result = list(filter(lambda x: x.rating < _filter['max_rate'], result))
+            result = WatchlistService.filter_by_max_rate(result, _filter['max_rate'])
         if 'min_year' in _filter:
-            result = list(filter(lambda x: x.year > _filter['min_year'], result))
+            result = WatchlistService.filter_by_min_year(result, _filter['min_year'])
         if 'max_year' in _filter:
-            result = list(filter(lambda x: x.year < _filter['max_year'], result))
+            result = WatchlistService.filter_by_max_year(result, _filter['max_year'])
         if 'title_type' in _filter:
-            result = list(filter(lambda x: x.title_type == _filter['title_type'], result))
+            result = WatchlistService.filter_by_title_type(result, _filter['title_type'])
         return result
+
+    @staticmethod
+    def filter_by_genres(_watchlist, genres):
+        return list(filter(lambda x: all(item in x.genres for item in genres), _watchlist))
+
+    @staticmethod
+    def filter_by_min_rate(_watchlist, min_rate):
+        return list(filter(lambda x: x.rating > min_rate, _watchlist))
+
+    @staticmethod
+    def filter_by_max_rate(_watchlist, max_rate):
+        return list(filter(lambda x: x.rating < max_rate, _watchlist))
+
+    @staticmethod
+    def filter_by_min_year(_watchlist, min_year):
+        return list(filter(lambda x: x.year > min_year, _watchlist))
+
+    @staticmethod
+    def filter_by_max_year(_watchlist, max_year):
+        return list(filter(lambda x: x.year < max_year, _watchlist))
+
+    @staticmethod
+    def filter_by_title_type(_watchlist, title_type):
+        return list(filter(lambda x: x.title_type == title_type, _watchlist))
+
