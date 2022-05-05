@@ -49,11 +49,13 @@ class ImdbAdapter(WatchlistRepository):
             return list_id
         else:
             list_id = self.get_list_id_from_watchlist_page(user_id)
-            # TODO: move to separate function
-            users_lists_map = self.get_users_lists_map()
-            users_lists_map[user_id] = list_id
-            self.file_reader.write_json_to_file(json.dumps(users_lists_map))
+            self.save_list_id_to_store(user_id, list_id)
             return list_id
+
+    def save_list_id_to_store(self, user_id, list_id):
+        users_lists_map = self.get_users_lists_map()
+        users_lists_map[user_id] = list_id
+        self.file_reader.write_json_to_file(json.dumps(users_lists_map))
 
     @staticmethod
     def request_csv(list_id: str):
