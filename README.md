@@ -16,7 +16,7 @@ python app.py
 
 ## API description
 
-There are two endpoints in API:
+There are two endpoints in the API:
 
 ### 1. Get watchlist info
 
@@ -24,7 +24,7 @@ There are two endpoints in API:
 GET /info/<user_id>
 ```
 
-This will return your movie count and other statistic which you can use to filter your tandom movie request
+This will return your movie count and other statistic which you can use to filter your random movie request
 
 ### 2. Get random movie
 
