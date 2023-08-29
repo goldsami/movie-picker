@@ -41,7 +41,7 @@ filter: {
   min_rate: float
   max_year: int
   min_year: int
-  ganres: string[]
+  genres: string[]
   title_type: string[]
 }
 ```
